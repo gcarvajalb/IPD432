@@ -22,7 +22,7 @@ enum logic [10:0] {A, B, C, ...} CurrentState, NextState;
 
  //FSM combinational logic:
  always_comb
-	NextState <= A;  //Default state assigment
+	NextState = A;  //Optional default state assigment
 	case (CurrentState)
 		A: begin
 			outp1 = <value> ;
