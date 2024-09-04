@@ -11,35 +11,35 @@ module module_name
  //Declarations:------------------------------
 
  //FSM states type:
- typedef enum logic [10:0] {A, B, C, ...} state;
- state pr_state, nx_state;
+enum logic [10:0] {A, B, C, ...} CurrentState, NextState;
 
  //Statements:--------------------------------
 
  //FSM state register:
  always_ff @(posedge clk)
-	if (rst) pr_state < = A;
-	else pr_state < = nx_state;
+	if (rst) CurrentState < = A;
+	else CurrentState <= NextState;
 
  //FSM combinational logic:
  always_comb
-	case (pr_state)
+	NextState <= A;  //Default state assigment
+	case (CurrentState)
 		A: begin
 			outp1 = <value> ;
 			outp2 = <value> ;
 			...
-			if (condition) nx_state = B;
-			else if (condition) nx_state = ...;
-			else nx_state = A;
+			if (condition) NextState = B;
+			else if (condition) NextState = ...;
+			else NextState = A;
 		end
  
 		B: begin
 			outp1 = <value> ;
 			outp2 = <value> ;
 			...
-			if (condition) nx_state = C;
-			else if (condition) nx_state = ...;
-			else nx_state = B;
+			if (condition) NextState = C;
+			else if (condition) NextState = ...;
+			else NextState = B;
 		end
  
 		C: begin
