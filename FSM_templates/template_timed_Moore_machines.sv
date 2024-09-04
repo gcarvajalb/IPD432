@@ -13,8 +13,7 @@ module module_name
  //Declarations:------------------------------
 
  //FSM states type:
- typedef enum logic [10:0] {A, B, C, ...} state;
- state pr_state, nx_state;
+enum logic [10:0] {A, B, C, ...} CurrentState, NextState;
 
   //Timer-related declarations:
  const logic [7:0] T1 = <value> ;
@@ -27,33 +26,33 @@ module module_name
  //Timer :
  always_ff @(posedge clk)
 	if (rst) t < = 0;
-	else if (pr_state != nx_state) t <= 0; //reset the timer when state changes
+	else if (CurrentState != NextState) t <= 0; //reset the timer when state changes
 	else if (t != tmax) t <= t + 1;
 
  //FSM state register:
  always_ff @(posedge clk)
-	if (rst) pr_state <= A;
-	else pr_state <= nx_state;
+	if (rst) CurrentState <= A;
+	else CurrentState <= NextState;
  
  //FSM combinational logic:
  always_comb
-	case (pr_state)
+	case (CurrentState)
 		A: begin
 			outp1 = <value> ;
 			outp2 = <value> ;
 			...
-			if (... and t > =T1-1) nx_state = B;
-			else if (... and t >= T2-1) nx_state = ...;
-			else nx_state = A;
+			if (... and t > =T1-1) NextState = B;
+			else if (... and t >= T2-1) NextState = ...;
+			else NextState = A;
 		end
  
 		B: begin
 			outp1 = <value> ;
 			outp2 = <value> ;
 			...
-			if (... and t >= T3-1) nx_state = C;
-			else if (...) nx_state = ...;
-			else nx_state = B;
+			if (... and t >= T3-1) NextState = C;
+			else if (...) NextState = ...;
+			else NextState= B;
 		end
  
 		C: begin
