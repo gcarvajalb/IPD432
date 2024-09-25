@@ -7,11 +7,8 @@ module UART_tx_control_wrapper
     input  logic           PB,
     input  logic [15:0]    SW,
     output logic [7:0]     tx_data,
-    output logic           tx_start,
-    output logic [1:0]     stateID
+    output logic           tx_start
     );
-
-logic send16, busy;
 
 TX_control 
 #(  .INTER_BYTE_DELAY (INTER_BYTE_DELAY),
@@ -21,21 +18,11 @@ TX_control
 	.clock (clock),
 	.reset (reset),
 	.PB (PB),
-	.send16 (send16),
+	.send16 (1'b1),
 	.dataIn16 (SW),
 	.tx_data (tx_data),
 	.tx_start (tx_start),
-	.busy (busy)
-    );
-
-TX_sequence TX_sequence_inst0 
-(
-	.clock (clock),
-	.reset (reset),
-	.PB (PB),
-	.send16 (send16),
-	.busy (busy),
-	.stateID(stateID)
+	.busy ()
     );
 
 endmodule
